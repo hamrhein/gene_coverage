@@ -9,16 +9,16 @@ class GtfDict:
         self.total_transcripts = 0
 
         for gi in parser_obj:
-            if gi['feature'] != 'exon':
+            if gi["feature"] != "exon":
                 continue
 
             if source:
-                if gi['source'] != source:
+                if gi["source"] != source:
                     continue
 
-            chrom = gi['seqname']
-            
-            exon = (int(gi['start']), int(gi['end']), gi['strand'])
+            chrom = gi["seqname"]
+
+            exon = (int(gi["start"]), int(gi["end"]), gi["strand"])
 
             if chrom not in self.gdict:
                 self.gdict[chrom] = dict()

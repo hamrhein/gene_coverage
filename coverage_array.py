@@ -22,12 +22,11 @@ class CoverageArray:
             tags = dict(algn.get_tags())
 
             if unique and "NH" not in tags:
-                msg = 'NH tags missing from BAM alignments'
+                msg = "NH tags missing from BAM alignments"
                 raise CoverageArrayException(msg)
 
-            if unique and tags['NH'] > 1:
+            if unique and tags["NH"] > 1:
                 continue
 
             for b in algn.blocks:
-                self.arr[b[0]:b[1]] += 1
-
+                self.arr[b[0] : b[1]] += 1
