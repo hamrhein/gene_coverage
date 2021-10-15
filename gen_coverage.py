@@ -5,11 +5,10 @@ import sys
 
 import pysam
 
+import gtfparse
 import gene_dict
 import coverage_array
 import coverage
-
-import hamrhein.file_parsers.gtfparse as gtfparse
 
 
 def build_parser():
