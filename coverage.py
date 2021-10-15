@@ -1,6 +1,5 @@
 import pysam
 
-import gtfparse
 import gene_dict
 import coverage_array
 
