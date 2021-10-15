@@ -92,34 +92,34 @@ def main(args):
     coverage_obj = coverage.Coverage()
 
     try:
-        gtf_fs = open(args.gtffile, 'rt')
+        gtf_fs = open(args.gtffile, "rt")
     except Exception as e:
-        print('Failed to open GTF file: {}'.format(str(e)))
+        print("Failed to open GTF file: {}".format(str(e)))
         return 1
 
     gtf = gtfparse.GtfParse(gtf_fs)
 
     if args.verbose:
-        print('Reading GTF file...', end='', flush=True)
+        print("Reading GTF file...", end="", flush=True)
 
     coverage_obj.gene_dict_obj = gene_dict.GtfDict(gtf)
 
     if args.verbose:
-        print('done.')
+        print("done.")
 
     try:
-        bam_object = pysam.AlignmentFile(args.bamfile, 'rb')
+        bam_object = pysam.AlignmentFile(args.bamfile, "rb")
     except Exception as e:
-        print('Failed to open BAM file: {}'.format(str(e)))
+        print("Failed to open BAM file: {}".format(str(e)))
         gtf_fs.close()
         return 1
 
     coverage_obj.bam_object = bam_object
 
     try:
-        out_stream = open(args.outfile, 'wt')
+        out_stream = open(args.outfile, "wt")
     except Exception as e:
-        print('Failed to open output stream: {}'.format(str(e)))
+        print("Failed to open output stream: {}".format(str(e)))
         gtf_fs.close()
         bam_object.close()
         return 1
@@ -127,8 +127,9 @@ def main(args):
     coverage_obj.out_stream = out_stream
 
     coverage_obj(args)
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     parser = build_parser()
     args = parser.parse_args()
 
