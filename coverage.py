@@ -5,6 +5,7 @@ import hamrhein.file_parsers.gtfparse as gtfparse
 import gene_dict
 import coverage_array
 
+
 class CoverageException(Exception):
     pass
 
@@ -21,15 +22,15 @@ class Coverage:
 
     def __call__(self, args):
         if self.bam_object is None:
-            msg = 'BAM object not instantiated'
+            msg = "BAM object not instantiated"
             raise CoverageException(msg)
 
         if self.gene_dict_obj is None:
-            msg = 'GtfDict object not instantiated'
+            msg = "GtfDict object not instantiated"
             raise CoverageException(msg)
 
         if self.out_stream is None:
-            msg = 'Output stream not instantiated'
+            msg = "Output stream not instantiated"
             raise CoverageException(msg)
 
         nlzip = zip(self.bam_object.references, self.bam_object.lengths)
@@ -39,7 +40,7 @@ class Coverage:
             if args.min_gene_len >= 100:
                 self.min_gene_length = args.min_gene_len
             else:
-                msg = 'Minimum gene length must be >= 100'
+                msg = "Minimum gene length must be >= 100"
                 raise CoverageException(msg)
 
         if args.max_gene_len:
@@ -51,11 +52,11 @@ class Coverage:
             length = self.bam_name_lengths[chrom]
 
             if args.verbose:
-                print('Processing {}: size {}'.format(chrom, length))
+                print("Processing {}: size {}".format(chrom, length))
 
             coverage_arr = coverage_array.CoverageArray(length)
             coverage_arr.populate(self.bam_object, chrom, args.unique)
-                
+
             for gid, transcripts in gdict.items():
 
                 if args.single and len(transcripts) > 1:
@@ -70,7 +71,7 @@ class Coverage:
 
                 nl = sorted(nl)
 
-                if strand == '-' or strand == 'R':
+                if strand == "-" or strand == "R":
                     nl.reverse()
 
                 gene_length = len(nl)
@@ -94,10 +95,9 @@ class Coverage:
 
                 self.output_vector += final_vector
                 number_of_genes += 1
-        
+
         if args.normalize:
             self.output_vector /= numer_of_genes
 
         for i in range(100):
-            self.out_stream.write('{}\t{}\n'.format(i, self.output_vector[i]))
-
+            self.out_stream.write("{}\t{:0.4f}\n".format(i, self.output_vector[i]))
