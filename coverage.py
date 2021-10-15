@@ -1,9 +1,10 @@
 import pysam
-import numpy as np
-import hamrhein.file_parsers.gtfparse as gtfparse
 
+import gtfparse
 import gene_dict
 import coverage_array
+
+import numpy as np
 
 
 class CoverageException(Exception):
@@ -57,6 +58,8 @@ class Coverage:
             coverage_arr = coverage_array.CoverageArray(length)
             coverage_arr.populate(self.bam_object, chrom, args.unique)
 
+            number_of_transcripts = 0
+
             for gid, transcripts in gdict.items():
 
                 if args.single and len(transcripts) > 1:
@@ -68,6 +71,8 @@ class Coverage:
                     for start, end, strand in exons:
                         for i in range(start, end):
                             nl.add(i)
+
+                    number_of_transcripts += 1
 
                 nl = sorted(nl)
 
@@ -95,6 +100,9 @@ class Coverage:
 
                 self.output_vector += final_vector
                 number_of_genes += 1
+
+            if args.verbose:
+                print("  {} transcripts considered".format(number_of_transcripts))
 
         if args.normalize:
             self.output_vector /= numer_of_genes
